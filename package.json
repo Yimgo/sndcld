@@ -1,0 +1,9 @@
+{
+  "name": "sndcld",
+  "version": "0.0.1-alpha.1",
+  "description": "A stupid yet smooth soundcloud client.",
+  "license": "BSD-3-Clause",
+  "people": {
+    "name": "Guillaume Burel"
+  }
+}
