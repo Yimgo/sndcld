@@ -5,5 +5,8 @@
   "license": "BSD-3-Clause",
   "people": {
     "name": "Guillaume Burel"
+  },
+  "dependencies": {
+    "express": "~4"
   }
 }
