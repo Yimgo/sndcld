@@ -15,6 +15,7 @@ function authenticate(code) {
     .then(function (token) {
       return Q.Promise(function (resolve, reject) {
         if (token) {
+          console.log('Got access token %s', access_token);
           resolve(token);
         } else {
           reject(new Error('Bad token'));
@@ -23,14 +24,20 @@ function authenticate(code) {
     });
 }
 
+function getMe(token) {
+  return Q.nfcall(sc.get, '/me', token);
+}
+
 app.get('/callback', function (req, res) {
   var code = req.query.code;
   console.log('Connection from user with code: %s', code);
   authenticate(code)
-    .then(function (access_token) {
-      console.log('Got access token %s', access_token);
-      res.status(200).end();
-    }, function (err) {
+    .then(getMe)
+    .then(function (data) {
+      console.log(data);
+      res.status(200).end()
+    })
+    .catch(function (err) {
       console.error('Could not authenticate (%s)', err);
       res.status(401).end();
     });
