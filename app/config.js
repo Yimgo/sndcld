@@ -14,7 +14,7 @@ var config = Object.create(Object.prototype, {
   OAUTH_TOKEN: {
     enumerable: true,
     get: function () {
-      return process.env.OAUTH_TOKEN;
+      return process.env.SNDCLD_OAUTH_TOKEN;
     }
   }
 });
