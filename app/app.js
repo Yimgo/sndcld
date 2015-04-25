@@ -1,3 +1,5 @@
+'use strict';
+
 var
   express = require('express'),
   sc = require('soundclouder'),
@@ -15,7 +17,7 @@ function authenticate(code) {
     .then(function (token) {
       return Q.Promise(function (resolve, reject) {
         if (token) {
-          console.log('Got access token %s', access_token);
+          console.log('Got access token %s', token);
           resolve(token);
         } else {
           reject(new Error('Bad token'));
@@ -35,7 +37,7 @@ app.get('/callback', function (req, res) {
     .then(getMe)
     .then(function (data) {
       console.log(data);
-      res.status(200).end()
+      res.status(200).end();
     })
     .catch(function (err) {
       console.error('Could not authenticate (%s)', err);

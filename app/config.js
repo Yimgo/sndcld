@@ -1,3 +1,5 @@
+'use strict';
+
 var config = Object.create(Object.prototype, {
   CLIENT_ID: {
     enumerable: true,
