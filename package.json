@@ -6,6 +6,10 @@
   "people": {
     "name": "Guillaume Burel"
   },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Yimgo/sndcld.git"
+  },
   "dependencies": {
     "express": "~4"
   }
