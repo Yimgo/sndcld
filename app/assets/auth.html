@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="utf-8">
+		<title>sndcld</title>
+	</head>
+	<body>
+		<h1>sndcld</h1>
+    <p>Hello, word !</p>
+	</body>
+  <script src="http://connect.soundcloud.com/sdk.js"></script>
+  <script>
+  // initialize client with app credentials
+  SC.initialize({
+    client_id: 'f11b3212ac3c08e55f310804e81c3db3',
+    redirect_uri: 'http://localhost:3000/callback'
+  });
+
+  // initiate auth popup
+  SC.connect(function() {
+    SC.get('/me', function(me) {
+      alert('Hello, ' + me.username);
+    });
+  });
+  </script>
+</html>
