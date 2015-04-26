@@ -2,7 +2,7 @@
   'use strict';
   var
     express = require('express'),
-    sc = require('soundclouder'),
+    soundclouder = require('soundclouder'),
 
     config = require('./config'),
     User = require('./lib/user'),
@@ -10,7 +10,7 @@
     app = express(),
     server;
 
-  sc.init(config.CLIENT_ID, config.CLIENT_SECRET, 'http://localhost:3000/callback');
+  soundclouder.init(config.CLIENT_ID, config.CLIENT_SECRET, 'http://localhost:3000/callback');
 
   app.get('/callback', function (req, res) {
     var code = req.query.code;

@@ -1,8 +1,9 @@
 module.exports = (function () {
   'use strict';
   var
-    sc = require('soundclouder'),
-    Q = require('q');
+    Q = require('q'),
+
+    soundclouder = require('./promises').soundclouder;
 
   function User(accessToken) {
     Object.defineProperties(this, {
@@ -22,7 +23,7 @@ module.exports = (function () {
 
   User.prototype = {
     authenticate: function (code) {
-      return Q.nfcall(sc.auth, code)
+      return soundclouder.auth(code)
         .then(function (token) {
           return Q.Promise(function (resolve, reject) {
             if (token) {
@@ -36,8 +37,9 @@ module.exports = (function () {
     },
     populate: function () {
       if (this.accessToken) {
-        return Q.nfcall(sc.get, '/me', this.accessToken)
+        return soundclouder.get('/me', this.accessToken)
           .then(function (me) {
+            console.info(me);
             this.name = me.username;
           }.bind(this));
       } else {
