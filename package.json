@@ -14,5 +14,11 @@
     "express": "~4",
     "soundclouder": "~0.8",
     "q": "~1.2"
+  },
+  "devDependencies": {
+    "chai": "~2.2",
+    "chai-as-promised": "~5.0",
+    "mocha": "~2.2",
+    "proxyquire": "~1.4.0"
   }
 }
