@@ -3,44 +3,23 @@
 var
   express = require('express'),
   sc = require('soundclouder'),
-  Q = require('q'),
 
   config = require('./config'),
+  User = require('./lib/user'),
 
   app = express(),
   server;
 
 sc.init(config.CLIENT_ID, config.CLIENT_SECRET, 'http://localhost:3000/callback');
 
-function authenticate(code) {
-  return Q.nfcall(sc.auth, code)
-    .then(function (token) {
-      return Q.Promise(function (resolve, reject) {
-        if (token) {
-          console.log('Got access token %s', token);
-          resolve(token);
-        } else {
-          reject(new Error('Bad token'));
-        }
-      });
-    });
-}
-
-function getMe(token) {
-  return Q.nfcall(sc.get, '/me', token);
-}
-
 app.get('/callback', function (req, res) {
   var code = req.query.code;
   console.log('Connection from user with code: %s', code);
-  authenticate(code)
-    .then(getMe)
-    .then(function (data) {
-      console.log(data);
-      res.status(200).end();
-    })
-    .catch(function (err) {
-      console.error('Could not authenticate (%s)', err);
+  User.create(code)
+    .then(function () {
+      res.redirect('/index.html');
+    }, function (err) {
+      console.error('Could not create user (%s)', err);
       res.status(401).end();
     });
 });
