@@ -1,28 +1,42 @@
 module.exports = (function () {
   'use strict';
-  var Q = require('q');
+  var
+    Q = require('q'),
 
-  function denodeifySoundclouder() {
-    var soundclouder = require('soundclouder');
+    modules = {
+      fs: {
+        obj: require('fs'),
+        fn: ['readFile']
+      },
+      soundclouder: {
+        obj: require('soundclouder'),
+        fn: ['auth', 'get']
+      }
+    };
 
-    return Object.create(Object.prototype, ['auth', 'get'].reduce(function (properties, prop) {
+  function moduleProperties(module) {
+    return Object.create(Object.prototype, module.fn.reduce(function (properties, prop) {
       properties[prop] = {
         configurable: false,
         enumerable: true,
         writable: false,
-        value: Q.nfbind(soundclouder[prop])
+        value: Q.nfbind(module.obj[prop])
       };
 
       return properties;
     }, {}));
   }
 
-  return Object.create(Object.prototype, {
-    soundclouder: {
-      configrable: false,
+  return Object.create(Object.prototype, Object.keys(modules).reduce(function (properties, key) {
+    var module = modules[key];
+
+    properties[key] = {
+      configurable: false,
       enumerable: true,
       writable: false,
-      value: denodeifySoundclouder()
-    }
-  });
+      value: moduleProperties(module)
+    };
+
+    return properties;
+  }, {}));
 }());
