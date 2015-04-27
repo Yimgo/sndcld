@@ -7,6 +7,11 @@ module.exports = (function () {
 
   function User(accessToken) {
     Object.defineProperties(this, {
+      id: {
+        configurable: false,
+        enumerable: true,
+        writable: true
+      },
       name: {
         configurable: false,
         enumerable: true,
@@ -39,11 +44,19 @@ module.exports = (function () {
       if (this.accessToken) {
         return soundclouder.get('/me', this.accessToken)
           .then(function (me) {
-            console.info(me);
+            this.id = me.id;
             this.name = me.username;
-          }.bind(this));
+          }.bind(this))
+          .thenResolve(this);
       } else {
         return Q.reject(new Error('User: could not populate user (missing token)'));
+      }
+    },
+    stream: function () {
+      if (this.accessToken) {
+        return soundclouder.get('/me/activities/all', this.accessToken, {limit: 10});
+      } else {
+        return Q.reject(new Error('User: could not get user stream (missing token)'));
       }
     }
   };

@@ -6,11 +6,14 @@
 
     config = require('./config'),
     User = require('./lib/user'),
+    Users = require('./lib/users'),
 
     app = express(),
     server;
 
   soundclouder.init(config.CLIENT_ID, config.CLIENT_SECRET, 'http://localhost:3000/callback');
+
+  Users.loadFromFile('./app/config/users.json');
 
   app.get('/callback', function (req, res) {
     var code = req.query.code;
