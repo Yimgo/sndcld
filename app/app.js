@@ -13,6 +13,13 @@
     app = express(),
     server;
 
+  function ensureAuthenticated(req, res, next) {
+    if (req.isAuthenticated()) {
+      return next();
+    }
+    res.sendStatus(401);
+  }
+
   passport.serializeUser(function (user, done) {
     done(null, user);
   });
@@ -46,6 +53,13 @@
 
   app.get('/', function (req, res) {
     res.render('index', {user: req.user});
+  });
+
+  app.get('/stream', ensureAuthenticated, function (req, res) {
+    req.user.activities()
+      .then(function (activities) {
+        res.json(activities.collection);
+      });
   });
 
   app.get('/auth', passport.authenticate('soundcloud'));

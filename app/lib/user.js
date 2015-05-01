@@ -1,9 +1,7 @@
 module.exports = (function () {
   'use strict';
   var
-    Q = require('q'),
-
-    soundclouder = require('./promises').soundclouder;
+    soundcloud = require('./promises').soundcloud;
 
   function User(accessToken, refreshToken, profile) {
     Object.defineProperties(this, {
@@ -35,12 +33,8 @@ module.exports = (function () {
   }
 
   User.prototype = {
-    stream: function () {
-      if (this.accessToken) {
-        return soundclouder.get('/me/activities/all', this.accessToken, {limit: 10});
-      } else {
-        return Q.reject(new Error('User: could not get user stream (missing token)'));
-      }
+    activities: function () {
+      return soundcloud.get('/me/activities/all', this.accessToken, {limit: 10});
     }
   };
 

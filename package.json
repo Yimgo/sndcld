@@ -16,7 +16,6 @@
     "express-session": "~1.11",
     "passport": "~0.2",
     "passport-soundcloud": "~0.1",
-    "soundclouder": "~0.8",
     "q": "~1.2"
   },
   "devDependencies": {

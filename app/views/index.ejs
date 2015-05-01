@@ -29,7 +29,7 @@
         </ul>
 
         <ul class="left">
-          <li><a href="#">Stream</a></li>
+          <li><a id="stream" href="#">Stream</a></li>
           <li><a href="#">Mixtapes</a></li>
           <li><a href="#">Likes</a></li>
         </ul>
@@ -38,8 +38,17 @@
 
     <script src="vendor/foundation/js/vendor/jquery.js"></script>
     <script src="vendor/foundation/js/foundation.js"></script>
+    <script src="http://connect.soundcloud.com/sdk.js"></script>
     <script>
       $(document).foundation();
+
+      document.querySelector('#stream').addEventListener('click', function () {
+        $.ajax('/stream').done(function (data) {
+          SC.oEmbed(data.collection[0].origin.permalink_url, { auto_play: true }, function(oEmbed) {
+            console.log('oEmbed response: ' + oEmbed);
+          });
+        });
+      });
     </script>
   </body>
 </html>

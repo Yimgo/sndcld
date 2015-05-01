@@ -1,9 +1,0 @@
-{
-  "env": {
-    "node": true,
-    "mocha": true
-  },
-  "rules": {
-    "camelcase": [2, {"properties": "never"}]
-  }
-}

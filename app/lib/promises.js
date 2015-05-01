@@ -8,9 +8,9 @@ module.exports = (function () {
         obj: require('fs'),
         fn: ['readFile']
       },
-      soundclouder: {
-        obj: require('soundclouder'),
-        fn: ['auth', 'get']
+      soundcloud: {
+        obj: require('./soundcloud'),
+        fn: ['get']
       }
     };
 
