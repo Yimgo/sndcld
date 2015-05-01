@@ -3,9 +3,34 @@
 	<head>
 		<meta charset="utf-8">
 		<title>sndcld</title>
+
+		<link rel="stylesheet" href="vendor/foundation/css/normalize.css">
+		<link rel="stylesheet" href="vendor/foundation/css/foundation.css">
+
+		<script src="vendor/foundation/js/vendor/modernizr.js"></script>
 	</head>
 	<body>
-		<h1>sndcld</h1>
-    <p>Hello, word !</p>
+		<nav class="top-bar" data-topbar role="navigation">
+		  <ul class="title-area">
+		    <li class="name">
+		      <h1><a href="#">sndcld</a></h1>
+		    </li>
+		     <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+		    <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
+		  </ul>
+
+		  <section class="top-bar-section">
+		    <!-- Right Nav Section -->
+		    <ul class="right">
+		      <li><a href="auth.html">Sign in</a></li>
+		    </ul>
+		  </section>
+		</nav>
+
+		<script src="vendor/foundation/js/vendor/jquery.js"></script>
+		<script src="vendor/foundation/js/foundation.js"></script>
+		<script>
+		  $(document).foundation();
+		</script>
 	</body>
 </html>

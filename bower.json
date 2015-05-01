@@ -1,0 +1,13 @@
+{
+  "name": "sndcld",
+  "version": "0.0.0",
+  "homepage": "https://github.com/Yimgo/sndcld",
+  "authors": [
+    "Guillaume Burel <guillaume@yimgo.fr>"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "foundation": "~5"
+  },
+  "private": true
+}

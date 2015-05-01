@@ -28,6 +28,7 @@
   });
 
   app.use(express.static('app/assets'));
+  app.use('/vendor', express.static('bower_components'));
 
   server = app.listen(3000, function () {
     console.log('App listening at http://%s:%s', server.address().address, server.address().port);
