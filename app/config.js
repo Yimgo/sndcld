@@ -13,10 +13,10 @@ module.exports = (function () {
         return process.env.SNDCLD_CLIENT_SECRET;
       }
     },
-    OAUTH_TOKEN: {
+    CALLBACK_URL: {
       enumerable: true,
       get: function () {
-        return process.env.SNDCLD_OAUTH_TOKEN;
+        return process.env.SNDCLD_CALLBACK_URL;
       }
     }
   });

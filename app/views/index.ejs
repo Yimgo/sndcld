@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+    <title>sndcld</title>
+
+    <link rel="stylesheet" href="vendor/foundation/css/normalize.css">
+    <link rel="stylesheet" href="vendor/foundation/css/foundation.css">
+
+    <script src="vendor/foundation/js/vendor/modernizr.js"></script>
+  </head>
+  <body>
+    <nav class="top-bar" data-topbar role="navigation">
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="#">sndcld</a></h1>
+        </li>
+        <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
+      </ul>
+
+      <section class="top-bar-section">
+        <!-- Right Nav Section -->
+        <ul class="right">
+          <% if (!user) { %>
+          <li><a href="/auth">Sign in</a></li>
+          <% } else { %>
+          <li><a href="#">Hi, <%= user.name %> !</a></li>
+          <% } %>
+        </ul>
+
+        <ul class="left">
+          <li><a href="#">Stream</a></li>
+          <li><a href="#">Mixtapes</a></li>
+          <li><a href="#">Likes</a></li>
+        </ul>
+      </section>
+    </nav>
+
+    <script src="vendor/foundation/js/vendor/jquery.js"></script>
+    <script src="vendor/foundation/js/foundation.js"></script>
+    <script>
+      $(document).foundation();
+    </script>
+  </body>
+</html>
