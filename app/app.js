@@ -1,11 +1,14 @@
 (function () {
   'use strict';
   var
+    fs = require('fs'),
+    https = require('https'),
+    path = require('path'),
+
     express = require('express'),
     session = require('express-session'),
     passport = require('passport'),
     SoundCloudStrategy = require('passport-soundcloud').Strategy,
-    soundclouder = require('soundclouder'),
 
     config = require('./config'),
     User = require('./lib/user'),
@@ -13,7 +16,15 @@
     app = express(),
     server;
 
-  function ensureAuthenticated(req, res, next) {
+  function getSSLOptions () {
+    return {
+      key: fs.readFileSync(path.join(config.SSL_PATH, 'server.key')),
+      cert: fs.readFileSync(path.join(config.SSL_PATH, 'server.crt')),
+      ca: fs.readFileSync(path.join(config.SSL_PATH, 'ca.crt'))
+    };
+  }
+
+  function ensureAuthenticated (req, res, next) {
     if (req.isAuthenticated()) {
       return next();
     }
@@ -68,7 +79,7 @@
     res.redirect('/');
   });
 
-  server = app.listen(3000, function () {
-    console.log('App listening at http://%s:%s', server.address().address, server.address().port);
+  server = https.createServer(getSSLOptions(), app).listen(3000, function () {
+    console.log('App listening at https://%s:%s', server.address().address, server.address().port);
   });
 }());

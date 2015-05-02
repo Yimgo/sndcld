@@ -18,6 +18,12 @@ module.exports = (function () {
       get: function () {
         return process.env.SNDCLD_CALLBACK_URL;
       }
+    },
+    SSL_PATH: {
+      enumerable: true,
+      get: function () {
+        return process.env.SNDCLD_SSL_PATH
+      }
     }
   });
 }());
