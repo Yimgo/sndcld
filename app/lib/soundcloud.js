@@ -2,7 +2,7 @@ module.exports = (function () {
   'use strict';
 
   var
-    https = require('https'),
+    https = require('follow-redirects').https,
     qs = require('querystring'),
 
     client_id = require('../config').CLIENT_ID,

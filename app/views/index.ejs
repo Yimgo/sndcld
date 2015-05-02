@@ -35,17 +35,25 @@
         </ul>
       </section>
     </nav>
+    <% if (collection) { %>
+      <% collection.forEach(function (track) { %>
+    <article>
+      <%- track.html %>
+    </article>
+      <% }); %>
+    <% } %>
 
     <script src="vendor/foundation/js/vendor/jquery.js"></script>
     <script src="vendor/foundation/js/foundation.js"></script>
-    <script src="http://connect.soundcloud.com/sdk.js"></script>
+    <script src="https://connect.soundcloud.com/sdk.js"></script>
     <script>
       $(document).foundation();
 
       document.querySelector('#stream').addEventListener('click', function () {
         $.ajax('/stream').done(function (data) {
-          SC.oEmbed(data.collection[0].origin.permalink_url, { auto_play: true }, function(oEmbed) {
-            console.log('oEmbed response: ' + oEmbed);
+          console.log(data)
+          SC.oEmbed(data[0].origin.permalink_url, { auto_play: true }, function(oEmbed) {
+            console.log(oEmbed.html);
           });
         });
       });

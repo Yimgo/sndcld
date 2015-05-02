@@ -1,7 +1,7 @@
 module.exports = (function () {
   'use strict';
   var
-    soundcloud = require('./promises').soundcloud;
+    SoundCloud = require('./promises').SoundCloud;
 
   function User(accessToken, refreshToken, profile) {
     Object.defineProperties(this, {
@@ -34,7 +34,7 @@ module.exports = (function () {
 
   User.prototype = {
     activities: function () {
-      return soundcloud.get('/me/activities/all', this.accessToken, {limit: 10});
+      return SoundCloud.get('/me/activities/all', this.accessToken, {limit: 10});
     }
   };
 

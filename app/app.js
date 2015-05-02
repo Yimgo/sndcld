@@ -9,9 +9,11 @@
     session = require('express-session'),
     passport = require('passport'),
     SoundCloudStrategy = require('passport-soundcloud').Strategy,
+    Q = require('q'),
 
     config = require('./config'),
     User = require('./lib/user'),
+    SoundCloud = require('./lib/promises').SoundCloud,
 
     app = express(),
     server;
@@ -63,20 +65,33 @@
   app.use(passport.session());
 
   app.get('/', function (req, res) {
-    res.render('index', {user: req.user});
+    res.redirect('/stream');
   });
 
   app.get('/stream', ensureAuthenticated, function (req, res) {
-    req.user.activities()
-      .then(function (activities) {
-        res.json(activities.collection);
-      });
+    if (req.user) {
+      req.user.activities()
+        .then(function (activities) {
+          return Q
+            .all(activities.collection.map(function (activity) {
+              return SoundCloud.get('/oembed', undefined, {
+                format: 'json',
+                url: activity.origin.uri
+              });
+            }))
+            .then(function (oembeds) {
+              res.render('index', {user: req.user, collection: oembeds});
+            });
+        });
+    } else {
+      res.render('index', {user: req.user, collection: null});
+    }
   });
 
   app.get('/auth', passport.authenticate('soundcloud'));
 
   app.get('/auth/callback', passport.authenticate('soundcloud', { failureRedirect: '/?login=failure' }), function(req, res) {
-    res.redirect('/');
+    res.redirect('/stream');
   });
 
   server = https.createServer(getSSLOptions(), app).listen(3000, function () {
