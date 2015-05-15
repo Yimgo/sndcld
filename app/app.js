@@ -18,7 +18,7 @@
     app = express(),
     server;
 
-  function getSSLOptions () {
+  function getSSLOptions() {
     return {
       key: fs.readFileSync(path.join(config.SSL_PATH, 'server.key')),
       cert: fs.readFileSync(path.join(config.SSL_PATH, 'server.crt')),
@@ -26,7 +26,7 @@
     };
   }
 
-  function ensureAuthenticated (req, res, next) {
+  function ensureAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
       return next();
     }
@@ -65,13 +65,13 @@
   app.use(passport.session());
 
   app.get('/', function (req, res) {
-    res.render('index', {user: req.user});
+    res.render('pages/index', {user: req.user});
   });
 
   app.get('/likes', ensureAuthenticated, function (req, res) {
     req.user.likes()
       .then(function (likes) {
-        res.render('likes', {user: req.user, collection: likes, clientId: config.CLIENT_ID});
+        res.render('pages/likes', {user: req.user, collection: likes, clientId: config.CLIENT_ID});
       });
   });
 
