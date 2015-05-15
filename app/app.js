@@ -54,7 +54,7 @@
 
   app.set('views', 'app/views');
   app.set('view engine', 'ejs');
-  //app.use(express.static('assets'));
+  app.use(express.static('assets'));
   app.use('/vendor', express.static('bower_components'));
   app.use(session({
     secret: 'keyboard cat',
