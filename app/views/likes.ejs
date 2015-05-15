@@ -35,6 +35,15 @@
         </ul>
       </section>
     </nav>
+    <% if (collection) { %>
+    <ul>
+      <% collection.forEach(function (track) { %>
+      <li><%= track.title %> by <%= track.user.username %><br>
+        <audio src="<%= track.stream_url %>?client_id=<%= clientId %>" controls preload="none"></audio>
+      </li>
+      <% }); %>
+    </ul>
+    <% } %>
 
     <script src="vendor/foundation/js/vendor/jquery.js"></script>
     <script src="vendor/foundation/js/foundation.js"></script>

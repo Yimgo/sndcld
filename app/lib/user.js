@@ -35,6 +35,9 @@ module.exports = (function () {
   User.prototype = {
     activities: function () {
       return SoundCloud.get('/me/activities/all', this.accessToken, {limit: 10});
+    },
+    likes: function () {
+      return SoundCloud.get('/me/favorites', this.accessToken, {limit: 10});
     }
   };
 

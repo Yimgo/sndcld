@@ -54,7 +54,7 @@
 
   app.set('views', 'app/views');
   app.set('view engine', 'ejs');
-  app.use(express.static('app/assets'));
+  //app.use(express.static('assets'));
   app.use('/vendor', express.static('bower_components'));
   app.use(session({
     secret: 'keyboard cat',
@@ -65,33 +65,20 @@
   app.use(passport.session());
 
   app.get('/', function (req, res) {
-    res.redirect('/stream');
+    res.render('index', {user: req.user});
   });
 
-  app.get('/stream', ensureAuthenticated, function (req, res) {
-    if (req.user) {
-      req.user.activities()
-        .then(function (activities) {
-          return Q
-            .all(activities.collection.map(function (activity) {
-              return SoundCloud.get('/oembed', undefined, {
-                format: 'json',
-                url: activity.origin.uri
-              });
-            }))
-            .then(function (oembeds) {
-              res.render('index', {user: req.user, collection: oembeds});
-            });
-        });
-    } else {
-      res.render('index', {user: req.user, collection: null});
-    }
+  app.get('/likes', ensureAuthenticated, function (req, res) {
+    req.user.likes()
+      .then(function (likes) {
+        res.render('likes', {user: req.user, collection: likes, clientId: config.CLIENT_ID});
+      });
   });
 
   app.get('/auth', passport.authenticate('soundcloud'));
 
   app.get('/auth/callback', passport.authenticate('soundcloud', { failureRedirect: '/?login=failure' }), function(req, res) {
-    res.redirect('/stream');
+    res.redirect('/');
   });
 
   server = https.createServer(getSSLOptions(), app).listen(3000, function () {
