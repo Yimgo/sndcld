@@ -7,7 +7,8 @@
   ],
   "license": "MIT",
   "dependencies": {
-    "foundation": "~5"
+    "foundation": "~5",
+    "requirejs": "~2.1"
   },
   "private": true
 }
