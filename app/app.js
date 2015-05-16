@@ -60,7 +60,9 @@
     secret: 'keyboard cat',
     resave: true,
     saveUninitialized: true,
-    store: new FileStore()
+    store: new FileStore({
+      ttl: 7 * 24 * 60 * 60
+    })
   }));
   app.use(passport.initialize());
   app.use(passport.session());
