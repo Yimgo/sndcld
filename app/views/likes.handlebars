@@ -1,0 +1,12 @@
+{{> page/nav}}
+
+<section>
+  <ul>
+    {{#each collection}}
+      <li>
+        {{title}} by {{user.username}}<br>
+        <audio src="{{stream_url}}?client_id={{../clientId}}" controls preload="none"></audio>
+      </li>
+    {{/each}}
+  </ul>
+</section>

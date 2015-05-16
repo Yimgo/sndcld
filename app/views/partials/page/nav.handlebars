@@ -9,11 +9,11 @@
   <section class="top-bar-section">
     <!-- Right Nav Section -->
     <ul class="right">
-      <% if (!user) { %>
-      <li><a href="/auth">Sign in</a></li>
-      <% } else { %>
-      <li><a href="#">Hi, <%= user.name %> !</a></li>
-      <% } %>
+      {{#if user}}
+        <li><a href="#">Hi, {{user.name}} !</a></li>
+      {{else}}
+        <li><a href="/auth">Sign in</a></li>
+      {{/if}}
     </ul>
 
     <ul class="left">

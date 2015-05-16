@@ -6,6 +6,7 @@
     path = require('path'),
 
     express = require('express'),
+    exphbs  = require('express-handlebars'),
     session = require('express-session'),
     passport = require('passport'),
     FileStore = require('session-file-store')(session),
@@ -16,7 +17,8 @@
     User = require('./lib/user'),
 
     app = express(),
-    server;
+    server,
+    hbs;
 
   function getSSLOptions() {
     return {
@@ -52,15 +54,23 @@
     return done(null, new User(accessToken, refreshToken, profile));
   }));
 
-  app.set('views', 'app/views');
-  app.set('view engine', 'ejs');
-  app.use(express.static('assets'));
-  app.use('/vendor', express.static('bower_components'));
+  hbs = exphbs.create({
+    defaultLayout: 'main',
+    layoutsDir: path.join(__dirname, 'views', 'layouts'),
+    partialsDir: path.join(__dirname, 'views', 'partials')
+  });
+
+  app.engine('handlebars', hbs.engine);
+  app.set('views', path.join(__dirname, 'views'));
+  app.set('view engine', 'handlebars');
+  app.use(express.static(path.join(__dirname, '..', 'assets')));
+  app.use('/vendor', express.static(path.join(__dirname, '..',  'bower_components')));
   app.use(session({
     secret: 'keyboard cat',
     resave: true,
     saveUninitialized: true,
     store: new FileStore({
+      path: path.join(__dirname, '..', 'sessions'),
       ttl: 7 * 24 * 60 * 60
     })
   }));
@@ -68,13 +78,13 @@
   app.use(passport.session());
 
   app.get('/', function (req, res) {
-    res.render('pages/index', {user: req.user});
+    res.render('home', {title: 'home', user: req.user});
   });
 
   app.get('/likes', ensureAuthenticated, function (req, res) {
     req.user.likes()
       .then(function (likes) {
-        res.render('pages/likes', {user: req.user, collection: likes, clientId: config.CLIENT_ID});
+        res.render('likes', {title: 'likes', user: req.user, collection: likes, clientId: config.CLIENT_ID});
       });
   });
 
