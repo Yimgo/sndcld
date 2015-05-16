@@ -17,7 +17,8 @@
     "follow-redirects": "0.0.3",
     "passport": "~0.2",
     "passport-soundcloud": "~0.1",
-    "q": "~1.2"
+    "q": "~1.2",
+    "session-file-store": "~0.0.9"
   },
   "devDependencies": {
     "chai": "~2.2",

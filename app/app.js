@@ -8,12 +8,12 @@
     express = require('express'),
     session = require('express-session'),
     passport = require('passport'),
+    FileStore = require('session-file-store')(session),
     SoundCloudStrategy = require('passport-soundcloud').Strategy,
     Q = require('q'),
 
     config = require('./config'),
     User = require('./lib/user'),
-    SoundCloud = require('./lib/promises').SoundCloud,
 
     app = express(),
     server;
@@ -59,7 +59,8 @@
   app.use(session({
     secret: 'keyboard cat',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
+    store: new FileStore()
   }));
   app.use(passport.initialize());
   app.use(passport.session());
