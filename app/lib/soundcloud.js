@@ -5,7 +5,7 @@ module.exports = (function () {
     https = require('follow-redirects').https,
     qs = require('querystring'),
 
-    client_id = require('../config').CLIENT_ID,
+    client_id = require('./config').CLIENT_ID,
     host_api = 'api.soundcloud.com';
 
   /* borrowed from https://github.com/khilnani/soundclouder.js */

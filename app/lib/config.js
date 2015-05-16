@@ -22,7 +22,7 @@ module.exports = (function () {
     SSL_PATH: {
       enumerable: true,
       get: function () {
-        return process.env.SNDCLD_SSL_PATH
+        return process.env.SNDCLD_SSL_PATH;
       }
     }
   });
