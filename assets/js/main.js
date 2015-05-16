@@ -10,6 +10,7 @@
   });
 
   require(['jquery', 'foundation'], function ($) {
+    console.log('sndcld: I\'ve been loaded asynchronously.');
     $(document).foundation();
   });
 }());

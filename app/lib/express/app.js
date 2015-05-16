@@ -5,18 +5,11 @@ module.exports = (function () {
 
     express = require('express'),
 
-    config = require('../config'),
     sessionDecorator = require('./session'),
     templatesDecorator = require('./templates'),
+    user = require('./routers/user'),
 
     app;
-
-  function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) {
-      return next();
-    }
-    res.sendStatus(401);
-  }
 
   app = express();
 
@@ -29,13 +22,7 @@ module.exports = (function () {
   app.get('/', function (req, res) {
     res.render('home', {title: 'home', user: req.user});
   });
-
-  app.get('/likes', ensureAuthenticated, function (req, res) {
-    req.user.likes()
-      .then(function (likes) {
-        res.render('likes', {title: 'likes', user: req.user, collection: likes, clientId: config.CLIENT_ID});
-      });
-  });
+  app.use('/user', user);
 
   return app;
 }());
