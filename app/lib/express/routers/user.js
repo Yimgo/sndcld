@@ -5,12 +5,13 @@ module.exports = (function () {
 
     config = require('../../config'),
     ensureAuthenticated = require('../common').ensureAuthenticated,
-    SoundCloudManager = require('../../soundcloud-manager'),
+    UserCollections = require('../../user-collections'),
 
     router = express.Router();
 
   router.get('/likes', ensureAuthenticated, function (req, res) {
-    SoundCloudManager.likes(req.user)
+    var p = req.query.update ? UserCollections.update : UserCollections.fetch;
+    p(req.user, 'likes')
       .then(function (likes) {
         res.render('likes', {title: 'likes', user: req.user, collection: likes, clientId: config.CLIENT_ID});
       }, function (err) {

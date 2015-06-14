@@ -3,7 +3,6 @@ module.exports = function () {
   var
     qs = require('querystring'),
 
-    MongoClient = require('mongodb').MongoClient,
     Q = require('q'),
 
     SoundCloud = require('./promises').SoundCloud,
@@ -13,23 +12,32 @@ module.exports = function () {
       likes: '/me/favorites'
     };
 
-  function fetch(collection, user, params, accumulator) {
-    return SoundCloud.get(COLLECTIONS_URL[collection], user.accessToken, params)
-      .then(function (res) {
-        var nextParams;
+  function fetch(collection, user) {
+    var
+     deferred = Q.defer(),
+     accumulator = [];
 
-        accumulator = accumulator.concat(res.collection);
+    function doFetch(collection, user, params) {
+      SoundCloud.get(COLLECTIONS_URL[collection], user.accessToken, params)
+        .then(function (res) {
+          var nextParams;
 
-        if (res['next_href']) {
-          nextParams = qs.parse(res['next_href'].split('?')[1]);
-          return fetch(collection, user, nextParams, accumulator);
-        }
-        return Q.resolve(accumulator);
-      });
+          accumulator = accumulator.concat(res.collection);
+
+          if (res['next_href']) {
+            nextParams = qs.parse(res['next_href'].split('?')[1]);
+            doFetch(collection, user, nextParams);
+          } else {
+            deferred.resolve(accumulator);
+          }
+        });
+    }
+    doFetch(collection, user, {limit: 200, 'linked_partitioning': 1});
+    return deferred.promise;
   }
 
   function likes(user) {
-    return fetch('likes', user, {limit: 200, 'linked_partitioning': 1}, []);
+    return fetch('likes', user);
   }
 
   return {
